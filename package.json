@@ -1,0 +1,23 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Amazon clone querying sql database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aksm/Bamazon.git"
+  },
+  "author": "Al Min",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aksm/Bamazon/issues"
+  },
+  "homepage": "https://github.com/aksm/Bamazon#readme",
+  "dependencies": {
+    "inquirer": "^1.2.2",
+    "mysql": "^2.11.1"
+  }
+}
