@@ -4,28 +4,50 @@ var amazonQ = "<div class='selectQuantity'> <span class='a-declarative' data-act
 // Load product table
 var loadProducts = function() {
 	$.get("/products", function(products) {
-		var productTable = $("<table class='table table-striped table-hover'><thead><tr><th>ID<th>Item<th>Department<th>Price<tbody>");
+		// var productTable = $("<table class='table table-striped table-hover'><thead><tr><th>ID<th>Item<th>Department<th>Price<tbody>");
 		$.each(products, function(i, v) {
-			var row = $("<tr>");
-		  	$("<td>").text(v.ItemID).appendTo(row);
+			var row = $("<tr class='itemRow'>");
+		  	$("<td class='itemid' data-itemid='"+v.ItemID+"'>").text(v.ItemID).appendTo(row);
 		  	$("<td>").text(v.ProductName).appendTo(row);
 		  	$("<td>").text(v.DepartmentName).appendTo(row);
 		  	$("<td class='cashmoney'>").text(v.Price).appendTo(row);
 		  	$(amazonQ+"<button type='button' class='btn btn-default btn-sm addItem'><span class='glyphicon glyphicon-shopping-cart'></span> Shopping Cart</button>").appendTo(row);
-		  	row.appendTo(productTable);
+		  	row.appendTo("#products");
 		});
-		productTable.appendTo("#products");
 		$(".cashmoney").autoNumeric("init",{
 			aSep: ",",
 			aSign: "$"
 		});
+		// productTable.appendTo("#products");
 	});
 };
-$(document).on("click", ".addItem",function() {
-	console.log($(this).data("quantity-dropdown"));
-});
+var addProduct = function() {
+	$(document).on("click", ".addItem",function() {
+		var q = $(this).closest(".itemRow").find("select#quantity option:selected").val();
+		var itemID = $(this).closest(".itemRow").find(".itemid").data("itemid");
+		$.get("/productbyid?"+$.param({productID:itemID}), function(product) {
+			if(product.StockQuantity < 1) {
+				$("#cart-status").html("<h2>Sold out. Please choose another item.");
+			} else {
+				var row = $("<tr class='cartRow'>");
+			  	$("<td class='itemid' data-cartitemid='"+product[0].ItemID+"'>").text(product[0].ItemID).appendTo(row);
+			  	$("<td>").text(product[0].ProductName).appendTo(row);
+			  	$("<td>").text(product[0].DepartmentName).appendTo(row);
+			  	$("<td class='cashmoney'>").text(product[0].Price).appendTo(row);
+			  	$("<td>").text(q).appendTo(row);
+			  	// $(amazonQ+"<button type='button' class='btn btn-default btn-sm addItem'><span class='glyphicon glyphicon-shopping-cart'></span> Shopping Cart</button>").appendTo(row);
+			  	row.appendTo("#cart");
+				$(".cashmoney").autoNumeric("init",{
+					aSep: ",",
+					aSign: "$"
+				});
+			}
+		});
+	});
+};
 
 // Dom ready
 $(function() {
 	loadProducts();
+	addProduct();
 });

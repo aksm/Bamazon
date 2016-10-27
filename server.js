@@ -35,4 +35,12 @@ app.get("/products", function(request, response) {
 		response.send(res);
 	});
 });
+
+app.get("/productbyid", function(request, response) {
+	connection.query("SELECT * FROM Products WHERE ItemID=?", request.query.productID,function(err, res) {
+		if(err) throw err;
+		response.send(res);
+	});
+});
+
 app.listen(app.get("port"), function() {console.log("listening");});

@@ -50,7 +50,19 @@
     <div class="col-lg-6">
       <div class="panel panel-primary">
         <div class="panel-heading">Products</div>
-        <div class="panel-body"><div id="products"></div></div>
+        <div class="panel-body">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Item</th>
+						<th>Department</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody id="products"></tbody>
+			</table>
+        </div>
       </div>
     </div>
 
@@ -59,9 +71,22 @@
       <div class="panel panel-primary">
         <div class="panel-heading">Shopping Cart</div>
         <div class="panel-body">
-        	<div id="cart"></div>
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>Item</th>
+						<th>Department</th>
+						<th>Price</th>
+						<th>Quantity</th>
+					</tr>
+				</thead>
+				<tbody id="cart"></tbody>
+			</table>
+        		
         	<button id="order" class="btn">Submit Order</button>
         </div>
+        <div class="panel-footer" id="cart-status"></div>
       </div>
     </div>
 
