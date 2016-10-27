@@ -14,7 +14,7 @@ app.use("/", express.static(__dirname + "/app/public"));
 var connection = mysql.createConnection(process.env.JAWSDB_URL);
 
 var reduceInventory = function(quantity, item) {
-	connection.query("UPDATE Products SET StockQuantity=? WHERE ItemID=?", ["StockQuantity - "+quantity, item],function(err, res) {
+	connection.query("UPDATE Products SET StockQuantity=StockQuantity-? WHERE ItemID=?", [quantity, item],function(err, res) {
 		if(err) throw err;
 		return res;
 	});
@@ -53,7 +53,7 @@ app.post("/order", function(request, response) {
 	for(var k in request.query) {
 		// console.log(parseInt(request.query[k]),k);
 		// console.log(typeof request.query[k],typeof k);
-		// reduceInventory(request.query[k],k);
+		reduceInventory(parseInt(request.query[k]),parseInt(k));
 	}
   	response.sendStatus(200);
 });
