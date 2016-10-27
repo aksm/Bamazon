@@ -27,9 +27,10 @@ var addProduct = function() {
 		var q = $(this).closest(".itemRow").find("select#quantity option:selected").val();
 		var itemID = $(this).closest(".itemRow").find(".itemid").data("itemid");
 		$.get("/productbyid?"+$.param({productID:itemID}), function(product) {
-			if(product.StockQuantity < 1) {
+			if(product[0].StockQuantity < 1) {
 				$("#cart-status").html("<h2>Sold out. Please choose another item.");
 			} else {
+				$("#cart-status").empty();
 				order[itemID] = q;
 				var row = $("<tr class='cartRow'>");
 			  	$("<td class='itemid' data-cartitemid='"+product[0].ItemID+"'>").text(product[0].ItemID).appendTo(row);
@@ -59,8 +60,10 @@ var removeItem = function() {
 var submitOrder = function() {
 	$(document).on("click", "#order",function() {
 
-		$.post("/order?"+$.param({productID:itemID}), function(product) {
+		$.post("/order?"+$.param(order), function(product) {
 		});
+		$("#cart").empty();
+		$("#cart-status").html("<h2>Order complete. Thank you!");
 	});
 };
 
@@ -69,4 +72,5 @@ $(function() {
 	loadProducts();
 	addProduct();
 	removeItem();
+	submitOrder();
 });
