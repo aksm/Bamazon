@@ -43,4 +43,11 @@ app.get("/productbyid", function(request, response) {
 	});
 });
 
+app.post("/order", function(request, response) {
+	connection.query("UPDATE Products SET StockQuantity=? WHERE ItemID=?", [quantity, itemID],function(err, res) {
+		if(err) throw err;
+		response.send(res);
+	});
+});
+
 app.listen(app.get("port"), function() {console.log("listening");});
