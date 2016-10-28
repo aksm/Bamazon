@@ -19,22 +19,8 @@ var reduceInventory = function(quantity, item) {
 		return res;
 	});
 };
-// getAllProducts();
 
-// function getAllProducts() {
-// 	connection.query("SELECT * FROM Products", function(err, res) {
-// 		if(err) throw err;
-		// return res;
-		// console.log(res);
-		// for(var i = 0; i < res.length; i++){
-		// 	console.log("\nItem ID: "+res[i].ItemID);
-		// 	console.log("Item: "+res[i].ProductName);
-		// 	console.log("Department: "+res[i].DepartmentName);
-		// 	console.log("Price: $"+res[i].Price);
-		// 	console.log("Quantity: "+res[i].StockQuantity);
-		// }
-	// });
-// }
+// Display all products
 app.get("/products", function(request, response) {
 	connection.query("SELECT * FROM Products", function(err, res) {
 		if(err) throw err;
@@ -42,6 +28,7 @@ app.get("/products", function(request, response) {
 	});
 });
 
+// Retrieve product to add to cart
 app.get("/productbyid", function(request, response) {
 	connection.query("SELECT * FROM Products WHERE ItemID=?", request.query.productID,function(err, res) {
 		if(err) throw err;
@@ -49,10 +36,9 @@ app.get("/productbyid", function(request, response) {
 	});
 });
 
+// Reduce quantity in DB
 app.post("/order", function(request, response) {
 	for(var k in request.query) {
-		// console.log(parseInt(request.query[k]),k);
-		// console.log(typeof request.query[k],typeof k);
 		reduceInventory(parseInt(request.query[k]),parseInt(k));
 	}
   	response.sendStatus(200);
